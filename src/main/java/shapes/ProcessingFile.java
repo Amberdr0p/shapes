@@ -13,16 +13,20 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class ProcessingFile {
 
-  public static void writeToEndFile(String path, Collection<String> list) {
+  public static void writeToFile(String path, Map<Pair<String, String>, Integer> map) {
     Writer writer = null;
     try {
       writer =
-          new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, true), "utf-8"));
-      for (String line : list) {
-        writer.write(line + "\r\n");
+          new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, false), "utf-8"));
+      for (Entry<Pair<String, String>, Integer> pair : map.entrySet()) {
+        writer.write(pair.getKey().getLeft() + "\t" + pair.getKey().getRight() + "\t" + pair.getValue() + "\n");
       }
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();

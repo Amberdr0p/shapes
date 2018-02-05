@@ -15,37 +15,22 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Launcher {
 
+	private final static Logger logger = LoggerFactory.getLogger(Launcher.class);
+
 	public static void main(String[] args) throws IOException {
-
-		// System.out.println(WordShapeClassifier.wordShape("������
-		// ��� ���� �����",
-		// WordShapeClassifier.WORDSHAPECHRIS2USELC));
-		// System.out.println(WordShapeClassifier.wordShape("������
-		// ��� ���� �����",
-		// WordShapeClassifier.WORDSHAPECHRIS2));
-		// System.out.println(WordShapeClassifier.wordShapeChris4("������
-		// ��� ���� �����"));
-		// System.out.println(WordShapeClassifier.wordShape("������
-		// ��� ���� �����",
-		// WordShapeClassifier.WORDSHAPEJENNY1)); // ����� ������
-
-		/*
-		 * File folder = new
-		 * File("C://Users//Ivan//workspace//dialogue-21//factRuEval-2016//testset");
-		 * File[] files = folder.listFiles(new FilenameFilter() { public boolean
-		 * accept(File dir, String name) { return
-		 * name.toLowerCase().endsWith(".objects"); } });
-		 * 
-		 * for (File file : files) { processingFile(file);
-		 * System.out.println("Processing file " + file.getName() + " is complete"); }
-		 */
+		//String log4j = Launcher.class.getClassLoader().getResource("log4j.properties").getPath();
+		// PropertyConfigurator.configure(log4j);
 
 		File file = new File("C://Users//Ivan//eclipse-workspace//facr-extraction//project//listDialogNE.txt");
 		processingFile(file);
-		System.out.println("Processing file " + file.getName() + " is complete");
+		// logger.info("Processing file {} is complete", file.getName());
+		// logger.debug("Processing file {} is complete", file.getName());
 	}
 
 	private static void processingFile(File file) throws IOException {
@@ -61,7 +46,8 @@ public class Launcher {
 			String[] neAndType = str.split("\t\t\t");
 
 			String shape = WordShapeClassifier.wordShape(neAndType[0], WordShapeClassifier.WORDSHAPEJENNY1);
-			Pair<String, String> pair = new MutablePair(shape.substring(shape.indexOf("WT-") + 3), neAndType[1]);
+			Pair<String, String> pair = new MutablePair<String, String>(shape.substring(shape.indexOf("WT-") + 3),
+					neAndType[1]);
 			if (map.containsKey(pair)) {
 				map.replace(pair, map.get(pair) + 1);
 			} else {
